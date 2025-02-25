@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/authFragment">
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="ge.tkgroup.sharedshift.auth.presentation.AuthFragment"
+        android:label="fragment_auth"
+        tools:layout="@layout/fragment_auth" >
+        <action
+            android:id="@+id/action_authFragment_to_employeesFragment"
+            app:destination="@id/employeesFragment" />
+        <action
+            android:id="@+id/action_authFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/employeesFragment"
+        android:name="ge.tkgroup.sharedshift.employees.presentation.EmployeesFragment"
+        android:label="fragment_employees"
+        tools:layout="@layout/fragment_employees" />
+    <fragment
+        android:id="@+id/equipmentFragment"
+        android:name="ge.tkgroup.sharedshift.equipment.presentation.EquipmentFragment"
+        android:label="fragment_equipment"
+        tools:layout="@layout/fragment_equipment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="ge.tkgroup.sharedshift.settings.presentation.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_authFragment"
+            app:destination="@id/authFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_settingsFragment_to_mySharedShiftsFragment"
+            app:destination="@id/mySharedShiftsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="ge.tkgroup.sharedshift.auth.presentation.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_employeesFragment"
+            app:destination="@id/employeesFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/createSharedShiftFragment"
+        android:name="ge.tkgroup.sharedshift.settings.presentation.sharedshift.create.CreateSharedShiftFragment"
+        android:label="fragment_create_shared_shift"
+        tools:layout="@layout/fragment_create_shared_shift" />
+    <fragment
+        android:id="@+id/mySharedShiftsFragment"
+        android:name="ge.tkgroup.sharedshift.settings.presentation.sharedshift.MySharedShiftsFragment"
+        android:label="fragment_my_shared_shifts"
+        tools:layout="@layout/fragment_my_shared_shifts" >
+        <action
+            android:id="@+id/action_mySharedShiftsFragment_to_createSharedShiftFragment"
+            app:destination="@id/createSharedShiftFragment" />
+    </fragment>
+</navigation>
