@@ -28,7 +28,9 @@ class CreateSharedShiftAdapter(private val callback: (Callback) -> Unit) :
     inner class ItemViewHolder(private val binding: CreateSharedShiftViewHolderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Item) = with(binding) {
+        fun bind(itemPosition: Int) = with(binding) {
+            val item = getItem(itemPosition)
+
             etCompanyName.apply {
                 setText(item.text)
 
@@ -36,10 +38,10 @@ class CreateSharedShiftAdapter(private val callback: (Callback) -> Unit) :
                     callback(Callback.OnTextChanged(id = item.id, text = it.toString()))
 
                     btnAdd.isVisible =
-                        adapterPosition == currentList.lastIndex && !text.isNullOrEmpty()
+                        currentList.lastIndex == itemPosition && !text.isNullOrEmpty()
                 }
 
-                btnAdd.isVisible = adapterPosition == currentList.lastIndex && !text.isNullOrEmpty()
+                btnAdd.isVisible = currentList.lastIndex == itemPosition && !text.isNullOrEmpty()
             }
 
             btnAdd.apply {
@@ -63,8 +65,7 @@ class CreateSharedShiftAdapter(private val callback: (Callback) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
+        holder.bind(position)
     }
 
     override fun getItemViewType(position: Int): Int = position

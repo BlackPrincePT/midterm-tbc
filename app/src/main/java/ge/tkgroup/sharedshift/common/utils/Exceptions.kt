@@ -1,9 +1,6 @@
 package ge.tkgroup.sharedshift.common.utils
 
+class DocumentNotFoundException: Exception("Document not found")
+class DocumentParseFailedException: Exception("Document couldn't be parsed")
 class MappingException(message: String) : Exception(message)
-
-/**
- * Firestore Exceptions
- */
-class DocumentNotFoundException: Exception()
-class DocumentParseFailedException: Exception()
+class UserNotAuthenticatedException : Exception("User not authenticated")

@@ -1,15 +1,16 @@
-package ge.tkgroup.sharedshift.common.utils
+package ge.tkgroup.sharedshift.common.utils.extensions
 
+import android.app.DatePickerDialog
+import android.icu.util.Calendar
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
+import android.widget.DatePicker
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -56,6 +57,14 @@ fun Fragment.addMenuProvider(
     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 }
 
-fun View.showSnackBar(body: String) {
-    Snackbar.make(this, body, Snackbar.LENGTH_LONG).show()
+fun Fragment.showDatePickerDialog(onDateSet: (DatePicker, Int, Int, Int) -> Unit) {
+    Calendar.getInstance().let { calendar ->
+        DatePickerDialog(
+            requireContext(),
+            onDateSet,
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
 }

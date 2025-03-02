@@ -28,7 +28,6 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflater: (LayoutInfla
 
         setup()
         listeners()
-        collectors()
     }
 
     override fun onDestroyView() {
@@ -39,5 +38,4 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflater: (LayoutInfla
 
     open fun setup() {}
     open fun listeners() {}
-    open fun collectors() {}
 }

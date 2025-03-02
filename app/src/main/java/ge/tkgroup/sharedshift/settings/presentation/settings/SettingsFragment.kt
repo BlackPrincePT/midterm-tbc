@@ -1,4 +1,4 @@
-package ge.tkgroup.sharedshift.settings.presentation
+package ge.tkgroup.sharedshift.settings.presentation.settings
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -11,14 +11,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
     private val viewModel: SettingsViewModel by viewModels()
 
-    override fun listeners() {
-        binding.btnSignOut.setOnClickListener {
-            viewModel.signOut()
-            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToAuthFragment())
+    override fun listeners() = with(binding) {
+        btnSignOut.setOnClickListener {
+            viewModel.signUserOut()
+            findNavController().navigate(SettingsFragmentDirections.settingsToAuth())
         }
 
-        binding.btnCompanyCenter.setOnClickListener {
-            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToMySharedShiftsFragment())
+        btnCompanyCenter.setOnClickListener {
+            findNavController().navigate(SettingsFragmentDirections.settingsToMySharedShifts())
         }
     }
 }

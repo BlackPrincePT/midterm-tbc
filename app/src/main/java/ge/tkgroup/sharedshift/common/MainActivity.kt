@@ -12,12 +12,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import ge.tkgroup.sharedshift.R
-import ge.tkgroup.sharedshift.common.domain.repository.AuthRepository
 import ge.tkgroup.sharedshift.databinding.ActivityMainBinding
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

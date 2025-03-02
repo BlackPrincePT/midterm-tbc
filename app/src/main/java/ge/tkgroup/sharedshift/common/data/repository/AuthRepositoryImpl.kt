@@ -15,73 +15,24 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
-import com.google.firebase.firestore.snapshots
 import dagger.hilt.android.qualifiers.ApplicationContext
 import ge.tkgroup.sharedshift.BuildConfig
 import ge.tkgroup.sharedshift.R
+import ge.tkgroup.sharedshift.common.data.remote.FirebaseConstants.USERS
+import ge.tkgroup.sharedshift.common.data.remote.FirestoreUtils
 import ge.tkgroup.sharedshift.common.data.remote.model.UserDto
-import ge.tkgroup.sharedshift.common.data.remote.model.mappers.UserDtoMapper
-import ge.tkgroup.sharedshift.common.domain.model.User
 import ge.tkgroup.sharedshift.common.domain.repository.AuthRepository
+import ge.tkgroup.sharedshift.common.utils.DocumentNotFoundException
 import ge.tkgroup.sharedshift.common.utils.Resource
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-private const val USERS = "users"
-
 class AuthRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val userDtoMapper: UserDtoMapper
+    @ApplicationContext private val context: Context
 ) : AuthRepository {
 
-    private val db = Firebase.firestore
-
-    override fun saveUserData(user: User) {
-        val userDto = userDtoMapper.mapFromDomain(user)
-        db.collection(USERS).document(user.id).set(userDto)
-    }
-
-    override fun getCurrentUser(): Flow<User?> = currentUserData
-    override fun getCurrentUserId(): String? = Firebase.auth.currentUser?.uid
     override fun hasSavedAuthSession(): Boolean = FirebaseAuth.getInstance().currentUser != null
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val currentUserData by lazy {
-        currentUserId
-            .filterNotNull()
-            .flatMapLatest { userId ->
-                fetchCurrentUserData(userId)
-            }
-    }
-
-    private fun fetchCurrentUserData(userId: String): Flow<User?> {
-        val documentRef = db.collection(USERS).document(userId)
-
-        return documentRef.snapshots()
-            .map { documentSnapshot ->
-                documentSnapshot.toObject(UserDto::class.java)?.let {
-                    userDtoMapper.mapToDomain(it)
-                }
-            }
-    }
-
-    private val currentUserId: Flow<String?> = callbackFlow {
-        val listener = FirebaseAuth.AuthStateListener { auth ->
-            this.trySend(auth.currentUser?.uid)
-        }
-        Firebase.auth.addAuthStateListener(listener)
-
-        trySend(FirebaseAuth.getInstance().currentUser?.uid)
-
-        awaitClose { Firebase.auth.removeAuthStateListener(listener) }
-    }
+    override fun getCurrentUserId(): String? = Firebase.auth.currentUser?.uid
 
     override suspend fun launchGoogleAuthOptions(): Resource.Error? {
         return try {

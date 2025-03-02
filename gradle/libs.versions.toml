@@ -24,6 +24,7 @@ googleid = "1.1.1"
 
 #UI
 coreSplashscreen = "1.0.1"
+pagingRuntime = "3.3.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -53,6 +54,7 @@ googleid = { module = "com.google.android.libraries.identity.googleid:googleid",
 
 #UI
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

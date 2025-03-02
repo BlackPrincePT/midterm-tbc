@@ -1,4 +1,4 @@
-package ge.tkgroup.sharedshift.settings.presentation
+package ge.tkgroup.sharedshift.settings.presentation.settings
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -7,10 +7,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val signUserOut: SignUserOut
+    val signUserOut: SignUserOut
 ) : ViewModel() {
 
-    fun signOut() {
-        signUserOut()
-    }
 }

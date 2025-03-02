@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".settings.presentation.SettingsFragment">
+    tools:context=".settings.presentation.settings.SettingsFragment">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCompanyCenter"

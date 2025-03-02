@@ -33,7 +33,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCompanies"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:layout_marginHorizontal="@dimen/spacing_16dp"
         android:layout_marginTop="@dimen/spacing_32dp"
         app:layout_constraintTop_toBottomOf="@id/tvCancel" />

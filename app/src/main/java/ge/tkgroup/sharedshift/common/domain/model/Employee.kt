@@ -9,4 +9,17 @@ data class Employee(
     val iban: String,
     val salaryInGEL: Double,
     val hasPensionTaxDeduction: Boolean
-)
+) {
+    val fullName: String
+        get() = "$firstName $lastName"
+
+    val fullInfo: String
+        get() = """
+            Name: $fullName
+            Occupation: $occupation
+            Personal Number: $personalNumber
+            IBAN: $iban
+            Salary: ${salaryInGEL}GEL
+            Has Pension Tax Deduction: $hasPensionTaxDeduction
+        """.trimIndent()
+}

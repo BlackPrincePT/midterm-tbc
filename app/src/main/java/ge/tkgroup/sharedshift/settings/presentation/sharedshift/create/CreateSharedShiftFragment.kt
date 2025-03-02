@@ -1,79 +1,52 @@
 package ge.tkgroup.sharedshift.settings.presentation.sharedshift.create
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import ge.tkgroup.sharedshift.common.utils.collect
+import ge.tkgroup.sharedshift.common.utils.BaseBottomSheetDialogFragment
+import ge.tkgroup.sharedshift.common.utils.extensions.collect
 import ge.tkgroup.sharedshift.databinding.FragmentCreateSharedShiftBinding
 
 @AndroidEntryPoint
-class CreateSharedShiftFragment : BottomSheetDialogFragment() {
+class CreateSharedShiftFragment :
+    BaseBottomSheetDialogFragment<FragmentCreateSharedShiftBinding>(FragmentCreateSharedShiftBinding::inflate) {
 
     private val viewModel: CreateSharedShiftViewModel by viewModels()
 
-    private var _binding: FragmentCreateSharedShiftBinding? = null
-    private val binding
-        get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCreateSharedShiftBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun setup() {
         setupUI()
-        listeners()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun listeners() = with(binding) {
+        tvCreate.setOnClickListener {
+            val companies = viewModel.items.value
+                .map { it.text }
+                .filter { it.isNotEmpty() }
 
-        _binding = null
-    }
+            if (companies.isEmpty())
+                return@setOnClickListener
 
-    private fun listeners() {
-        with(binding) {
-            tvCreate.setOnClickListener {
-                val companies = viewModel.items.value
-                    .map { it.text }
-                    .filter { it.isNotEmpty() }
-
-                if (companies.isEmpty())
-                    return@setOnClickListener
-
-                AlertDialog.Builder(requireContext()).apply {
-                    setTitle("Create a new SharedShift")
-                    setMessage(companies.joinToString(separator = ",\n"))
-                    setNegativeButton("Cancel", null)
-                    setPositiveButton("Create") { _, _ ->
-                        if (viewModel.saveSharedShit(companies = companies))
-                            findNavController().navigateUp()
-                    }
-                    create()
-                    show()
+            AlertDialog.Builder(requireContext()).apply {
+                setTitle("Create a new SharedShift")
+                setMessage(companies.joinToString(separator = ",\n"))
+                setNegativeButton("Cancel", null)
+                setPositiveButton("Create") { _, _ ->
+                    viewModel.createSharedShit(companies = companies)
+                    findNavController().navigateUp()
                 }
+                create()
+                show()
             }
+        }
 
-            tvCancel.setOnClickListener {
-                findNavController().navigateUp()
-            }
+        tvCancel.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
-    // ========= Adapter ========= \\
+// ========= Adapter ========= \\
 
     private fun setupUI() {
         val adapter = createAdapter()
