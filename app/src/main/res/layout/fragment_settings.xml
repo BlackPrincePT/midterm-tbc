@@ -1,22 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".settings.presentation.settings.SettingsFragment">
+    android:background="@color/brand_white"
+    tools:context=".settings.presentation.SettingsFragment">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/brand_black"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_margin="@dimen/spacing_64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCompanyCenter"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Company Center" />
+        android:layout_marginHorizontal="@dimen/spacing_64dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/brand_green_capsule"
+        android:text="@string/my_sharedshifts"
+        android:textAllCaps="false"
+        android:textColor="@color/brand_white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/btnSignOut" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSignOut"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign out" />
+        android:layout_margin="@dimen/spacing_64dp"
+        android:background="@drawable/brand_green_capsule"
+        android:text="@string/sign_out"
+        android:textAllCaps="false"
+        android:textColor="@color/brand_white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/brand_white"
+    android:padding="@dimen/spacing_32dp"
     tools:context=".settings.presentation.sharedshift.create.CreateSharedShiftFragment">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_32dp"
         android:text="@string/cancel"
         android:textColor="@color/brand_black"
         android:textSize="20sp"
@@ -22,7 +23,6 @@
         android:id="@+id/tvCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/spacing_32dp"
         android:text="@string/create"
         android:textColor="@color/brand_green"
         android:textSize="20sp"
@@ -34,7 +34,6 @@
         android:id="@+id/rvCompanies"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_marginHorizontal="@dimen/spacing_16dp"
         android:layout_marginTop="@dimen/spacing_32dp"
         app:layout_constraintTop_toBottomOf="@id/tvCancel" />
 

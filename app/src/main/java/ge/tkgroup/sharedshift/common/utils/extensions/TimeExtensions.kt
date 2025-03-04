@@ -14,5 +14,3 @@ fun LocalDate.toTimestamp(): Timestamp = Timestamp(
     LocalDateTime.of(this.year, this.month, this.dayOfMonth, 0, 0)
         .toInstant(ZoneOffset.UTC)
 )
-
-fun isLeapYear(year: Int): Boolean = (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0)

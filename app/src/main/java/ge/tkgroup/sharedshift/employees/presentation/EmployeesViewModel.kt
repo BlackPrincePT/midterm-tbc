@@ -7,31 +7,27 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ge.tkgroup.sharedshift.employees.domain.usecases.GetEmployeesPagingSource
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import ge.tkgroup.sharedshift.common.domain.usecases.ObserveActiveSharedShift
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flatMapMerge
 import javax.inject.Inject
 
 @HiltViewModel
 class EmployeesViewModel @Inject constructor(
-    private val getEmployeesPagingSource: GetEmployeesPagingSource
+    getEmployeesPagingSource: GetEmployeesPagingSource,
+    observeActiveSharedShift: ObserveActiveSharedShift
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(EmployeesViewState())
-    val state = _state.asStateFlow()
+    val activeSharedShiftId = observeActiveSharedShift()
 
-    val paginatedEmployees = Pager(
-        config = PagingConfig(pageSize = 10),
-        pagingSourceFactory = { getEmployeesPagingSource() }
-    )
-        .flow
-        .cachedIn(viewModelScope)
-
-
-    fun setLoading(isLoading: Boolean) = viewModelScope.launch {
-        _state.update { oldState ->
-            oldState.copy(isLoading = isLoading)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val paginatedEmployees = activeSharedShiftId
+        .flatMapMerge { sharedShiftId ->
+            Pager(
+                config = PagingConfig(pageSize = 10),
+                pagingSourceFactory = { getEmployeesPagingSource(sharedShiftId) }
+            )
+                .flow
+                .cachedIn(viewModelScope)
         }
-    }
 }

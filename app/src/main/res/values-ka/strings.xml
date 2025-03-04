@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="no_google_accounts_found_on_this_device">ამ მოწყობილობაზე Google ანგარიშები არ მოიძებნა</string>
+    <string name="something_went_wrong">რაღაც შეცდომა მოხდა</string>
+    <string name="employees">თანამშრომლები</string>
+    <string name="equipment">აღჭურვილობა</string>
+    <string name="settings">პარამეტრები</string>
+    <string name="create_a_new_sharedshift">შეიქმნას ახალი SharedShift</string>
+    <string name="create">შექმნა</string>
+    <string name="cancel">გაუქმება</string>
+    <string name="save">შენახვა</string>
+    <string name="find">პოვნა</string>
+    <string name="username">მომხმარებლის სახელი</string>
+    <string name="search">ძიება</string>
+    <string name="first_name">სახელი</string>
+    <string name="last_name">გვარი</string>
+    <string name="personal_number">პირადი ნომერი</string>
+    <string name="occupation">პროფესია</string>
+    <string name="iban">IBAN</string>
+    <string name="salary_gel">ხელფასი (GEL)</string>
+    <string name="pays_pension_tax">იხდის საპენსიო გადასახადს</string>
+    <string name="hours">საათები</string>
+    <string name="sign_in_by_google">შესვლა Google-ით</string>
+    <string name="register">რეგისტრაცია</string>
+    <string name="sign_out">გამოსვლა</string>
+    <string name="my_sharedshifts">ჩემი SharedShift-ები</string>
+    <string name="company">კომპანია</string>
+    <string name="delete_user">მომხმარებლის წაშლა?</string>
+    <string name="delete">წაშლა</string>
+    <string name="add_user">მომხმარებლის დამატება?</string>
+    <string name="add">დამატება</string>
+    <string name="you_don_t_have_employees">თქვენ არ გყავთ თანამშრომლები</string>
+    <string name="you_don_t_have_equipment">თქვენ არ გაქვთ აღჭურვილობა</string>
+    <string name="owner">მფლობელი</string>
+    <string name="license_plate">სარეგისტრაციო ნომერი</string>
+    <string name="model">მოდელი</string>
+    <string name="manufacturer">მწარმოებელი</string>
+    <string name="exclusive_shift">ექსკლუზიური ცვლა</string>
+    <string name="notes">შენიშვნები</string>
+    <string name="create_a_new_employee">ახალი თანამშრომლის შექმნა</string>
+    <string name="ok">კარგი</string>
+    <string name="are_you_sure">დარწმუნებული ხართ?</string>
+    <string name="info">ინფორმაცია</string>
+    <string name="calendar">კალენდარი</string>
+
+</resources>

@@ -4,10 +4,11 @@ data class Equipment(
     val id: String,
     val manufacturer: String,
     val model: String,
-    val category: String,
     val licensePlate: String,
-    val ownerId: String
+    val owner: String
 ) {
-    val info: String
-        get() = "$manufacturer $model ($licensePlate)"
+    private val info: String
+        get() = "$manufacturer $model - $owner ($licensePlate)"
+
+    override fun toString(): String = info
 }

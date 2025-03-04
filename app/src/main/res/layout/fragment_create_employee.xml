@@ -1,14 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/brand_white"
+    android:padding="@dimen/spacing_32dp"
     tools:context=".employees.presentation.create.CreateEmployeeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+        android:textColor="@color/brand_black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create"
+        android:textColor="@color/brand_green"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etFirstName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_32dp"
+        android:hint="@string/first_name"
+        android:inputType="text"
+        app:layout_constraintEnd_toStartOf="@id/etLastName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvCancel" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etLastName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/last_name"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etFirstName"
+        app:layout_constraintTop_toTopOf="@id/etFirstName" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etPersonalNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/personal_number"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/etFirstName" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etOccupation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/occupation"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/etPersonalNumber" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etIBAN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/iban"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/etOccupation" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etSalary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="@string/salary_gel"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toStartOf="@id/switchPensionTax"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etIBAN" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchPensionTax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pays_pension_tax"
+        app:layout_constraintBottom_toBottomOf="@id/etSalary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/etSalary"
+        app:layout_constraintTop_toTopOf="@id/etSalary"
+        app:switchPadding="8dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

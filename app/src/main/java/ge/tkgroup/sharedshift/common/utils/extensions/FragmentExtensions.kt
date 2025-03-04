@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.DatePicker
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -66,5 +67,23 @@ fun Fragment.showDatePickerDialog(onDateSet: (DatePicker, Int, Int, Int) -> Unit
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         ).show()
+    }
+}
+
+fun Fragment.showAlert(
+    title: String, message: String? = null, positiveButtonTitle: String,
+    onPositive: () -> Unit
+) {
+    AlertDialog.Builder(requireContext()).apply {
+        setTitle(title)
+        message?.let {
+            setMessage(it)
+        }
+        setNegativeButton("Cancel", null)
+        setPositiveButton(positiveButtonTitle) { _, _ ->
+            onPositive.invoke()
+        }
+        create()
+        show()
     }
 }

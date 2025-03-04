@@ -11,14 +11,15 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
 
     private val viewModel: RegisterViewModel by viewModels()
 
-    override fun listeners() {
-        with(binding) {
-            btnSubmit.setOnClickListener {
-                val enteredUsername = etUsername.text.toString()
+    override fun listeners() = with(binding) {
+        btnSubmit.setOnClickListener {
+            viewModel.uploadUserData(username = etUsername.text.toString())
 
-                if (viewModel.uploadUserData(username = enteredUsername))
-                    findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToEmployeesFragment())
-            }
+            navigateToEmployees()
         }
+    }
+
+    private fun navigateToEmployees() {
+        findNavController().navigate(RegisterFragmentDirections.registerToEmployees())
     }
 }

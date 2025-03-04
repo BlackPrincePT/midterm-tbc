@@ -3,7 +3,6 @@ package ge.tkgroup.sharedshift.settings.presentation.sharedshift.edit.permission
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ge.tkgroup.sharedshift.common.utils.BaseBottomSheetDialogFragment

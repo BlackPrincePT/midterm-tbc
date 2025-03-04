@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ge.tkgroup.sharedshift.R
 import ge.tkgroup.sharedshift.common.domain.model.Permission
 import java.util.UUID
 

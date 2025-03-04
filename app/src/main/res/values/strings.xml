@@ -1,12 +1,8 @@
 <resources>
     <string name="app_name">sharedshift</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="no_google_accounts_found_on_this_device">No Google accounts found on this device</string>
     <string name="something_went_wrong">Something went wrong</string>
-
     <string name="employees">Employees</string>
     <string name="equipment">Equipment</string>
     <string name="settings">Settings</string>
@@ -17,4 +13,34 @@
     <string name="find">Find</string>
     <string name="username">Username</string>
     <string name="search">Search</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="personal_number">Personal number</string>
+    <string name="occupation">Occupation</string>
+    <string name="iban">IBAN</string>
+    <string name="salary_gel">Salary (GEL)</string>
+    <string name="pays_pension_tax">Pays pension tax</string>
+    <string name="hours">Hours</string>
+    <string name="sign_in_by_google">Sign in by Google</string>
+    <string name="register">Register</string>
+    <string name="sign_out">Sign out</string>
+    <string name="my_sharedshifts">My SharedShifts</string>
+    <string name="company">Company</string>
+    <string name="delete_user">Delete user?</string>
+    <string name="delete">Delete</string>
+    <string name="add_user">Add user?</string>
+    <string name="add">Add</string>
+    <string name="you_don_t_have_employees">You don\'t have employees</string>
+    <string name="you_don_t_have_equipment">You don\'t have equipment</string>
+    <string name="owner">Owner</string>
+    <string name="license_plate">License plate</string>
+    <string name="model">Model</string>
+    <string name="manufacturer">Manufacturer</string>
+    <string name="exclusive_shift">Exclusive shift</string>
+    <string name="notes">Notes</string>
+    <string name="create_a_new_employee">Create a new Employee</string>
+    <string name="ok">Ok</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="info">Info</string>
+    <string name="calendar">Calendar</string>
 </resources>

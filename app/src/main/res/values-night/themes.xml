@@ -2,6 +2,10 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Sharedshift" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+        <item name="colorPrimary">@color/brand_green</item>
+        <item name="colorPrimaryVariant">@color/brand_green_variant</item>
+
+        <item name="colorOnPrimary">@color/brand_white</item>
     </style>
 </resources>

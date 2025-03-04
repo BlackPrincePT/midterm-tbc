@@ -9,13 +9,14 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_weight="1"
-        android:hint="Company name" />
+        android:hint="@string/company" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/btnAdd"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="8dp"
+        android:background="@drawable/brand_green_capsule"
         android:src="@drawable/ic_add"
         android:visibility="gone" />
 

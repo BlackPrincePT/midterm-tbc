@@ -1,7 +1,5 @@
 package ge.tkgroup.sharedshift.settings.presentation.sharedshift.edit
 
-import androidx.appcompat.app.AlertDialog
-import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,6 +10,7 @@ import ge.tkgroup.sharedshift.R
 import ge.tkgroup.sharedshift.common.utils.BaseFragment
 import ge.tkgroup.sharedshift.common.utils.extensions.addMenuProvider
 import ge.tkgroup.sharedshift.common.utils.extensions.collectLatest
+import ge.tkgroup.sharedshift.common.utils.extensions.showAlert
 import ge.tkgroup.sharedshift.common.utils.extensions.showSnackBar
 import ge.tkgroup.sharedshift.databinding.FragmentEditSharedShiftBinding
 
@@ -29,16 +28,12 @@ class EditSharedShiftFragment :
             val username = bundle.getString(USERNAME_RESULT_KEY) ?: return@setFragmentResultListener
 
             viewModel.findUserByUsername(username) { user ->
-                AlertDialog.Builder(requireContext()).apply {
-                    setTitle("Are you sure?")
-                    setMessage(user.username)
-                    setNegativeButton("Cancel", null)
-                    setPositiveButton("Add") { _, _->
-                        viewModel.addUser(user)
-                    }
-                    create()
-                    show()
-                }
+                showAlert(
+                    title = getString(R.string.add_user),
+                    message = user.username,
+                    positiveButtonTitle = getString(R.string.add),
+                    onPositive = { viewModel.addUser(user) }
+                )
             }
         }
     }
@@ -77,15 +72,11 @@ class EditSharedShiftFragment :
         when (callback) {
             is UsersAdapter.Callback.OnClicked -> navigateToDetails(callback.userId)
             is UsersAdapter.Callback.OnLongClicked -> {
-                AlertDialog.Builder(requireContext()).apply {
-                    setTitle("Delete the user?")
-                    setNegativeButton("Cancel", null)
-                    setPositiveButton("Delete") { _, _->
-                        viewModel.deleteUser(callback.userId)
-                    }
-                    create()
-                    show()
-                }
+                showAlert(
+                    title = getString(R.string.delete_user),
+                    positiveButtonTitle = getString(R.string.delete),
+                    onPositive = { viewModel.deleteUser(callback.userId) }
+                )
             }
         }
     }
@@ -109,18 +100,25 @@ class EditSharedShiftFragment :
         }
     }
 
-    private fun subscribeToViewStateUpdates(adapter: UsersAdapter) {
+    private fun subscribeToViewStateUpdates(adapter: UsersAdapter) = with(binding) {
         collectLatest(viewModel.paginatedUsers) {
             adapter.submitData(it)
         }
-        collectLatest(adapter.loadStateFlow) { loadState ->
-            viewModel.setLoading(loadState.append is LoadState.Loading)
-        }
-        collectLatest(viewModel.state) { state ->
-            binding.progressBar.isVisible = state.isLoading
 
+        collectLatest(adapter.loadStateFlow) { loadState ->
+            val isRefreshing = loadState.refresh is LoadState.Loading
+            val isAppending = loadState.append is LoadState.Loading
+
+            swipeRefreshLayout.isRefreshing = isRefreshing || isAppending
+        }
+
+        swipeRefreshLayout.setOnRefreshListener {
+            adapter.refresh()
+        }
+
+        collectLatest(viewModel.state) { state ->
             state.errorMsg?.getContentIfNotHandled()?.let {
-                binding.root.showSnackBar(it)
+                root.showSnackBar(it)
             }
         }
     }

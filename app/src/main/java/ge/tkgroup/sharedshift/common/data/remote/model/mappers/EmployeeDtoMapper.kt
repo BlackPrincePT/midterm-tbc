@@ -22,7 +22,7 @@ class EmployeeDtoMapper @Inject constructor() : DtoMapper<EmployeeDto, Employee>
 
     override fun mapFromDomain(data: Employee): EmployeeDto {
         return EmployeeDto(
-            id = data.id,
+            id = data.id.ifEmpty { null },
             firstName = data.firstName,
             lastName = data.lastName,
             personalNumber = data.personalNumber,

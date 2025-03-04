@@ -1,14 +1,18 @@
 package ge.tkgroup.sharedshift.settings.presentation.sharedshift
 
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ge.tkgroup.sharedshift.R
 import ge.tkgroup.sharedshift.common.utils.BaseFragment
 import ge.tkgroup.sharedshift.common.utils.extensions.addMenuProvider
 import ge.tkgroup.sharedshift.common.utils.extensions.collect
+import ge.tkgroup.sharedshift.common.utils.extensions.collectLatest
 import ge.tkgroup.sharedshift.databinding.FragmentMySharedShiftsBinding
+import ge.tkgroup.sharedshift.settings.presentation.sharedshift.edit.UsersAdapter
 
 @AndroidEntryPoint
 class MySharedShiftsFragment :
@@ -37,6 +41,24 @@ class MySharedShiftsFragment :
         )
     }
 
+    private fun onAdapterCallbacks(callback: MySharedShiftsAdapter.Callback) {
+        when (callback) {
+            is MySharedShiftsAdapter.Callback.OnClicked -> navigateToDetails(callback.sharedShiftId)
+            is MySharedShiftsAdapter.Callback.OnLongClicked -> {
+                AlertDialog.Builder(requireContext()).apply {
+                    setTitle("Choose this shared shift?")
+                    setMessage(callback.sharedShift.companies.toString())
+                    setNegativeButton("Cancel", null)
+                    setPositiveButton("Choose") { _, _ ->
+                        viewModel.activateSharedShift(callback.sharedShift.id)
+                    }
+                    create()
+                    show()
+                }
+            }
+        }
+    }
+
     // ========= Adapter ========= \\
 
     private fun setupUI() {
@@ -46,7 +68,7 @@ class MySharedShiftsFragment :
     }
 
     private fun createAdapter(): MySharedShiftsAdapter {
-        return MySharedShiftsAdapter(onClicked = this::navigateToDetails)
+        return MySharedShiftsAdapter(callback = this::onAdapterCallbacks)
     }
 
     private fun setupRecyclerView(mySharedShiftsAdapter: MySharedShiftsAdapter) {
@@ -56,9 +78,20 @@ class MySharedShiftsFragment :
         }
     }
 
-    private fun subscribeToViewStateUpdates(adapter: MySharedShiftsAdapter) {
+    private fun subscribeToViewStateUpdates(adapter: MySharedShiftsAdapter) = with(binding) {
         collect(viewModel.mySharedShifts) {
-            adapter.submitList(it)
+            adapter.submitData(it)
+        }
+
+        collectLatest(adapter.loadStateFlow) { loadState ->
+            val isRefreshing = loadState.refresh is LoadState.Loading
+            val isAppending = loadState.append is LoadState.Loading
+
+            swipeRefreshLayout.isRefreshing = isRefreshing || isAppending
+        }
+
+        swipeRefreshLayout.setOnRefreshListener {
+            adapter.refresh()
         }
     }
 

@@ -2,6 +2,7 @@ package ge.tkgroup.sharedshift.employees.presentation
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -9,11 +10,13 @@ import ge.tkgroup.sharedshift.R
 import ge.tkgroup.sharedshift.common.utils.BaseFragment
 import ge.tkgroup.sharedshift.common.utils.extensions.addMenuProvider
 import ge.tkgroup.sharedshift.common.utils.extensions.collectLatest
-import ge.tkgroup.sharedshift.common.utils.extensions.showSnackBar
+import ge.tkgroup.sharedshift.common.utils.extensions.viewLifecycleScope
 import ge.tkgroup.sharedshift.databinding.FragmentEmployeesBinding
+import kotlinx.coroutines.flow.first
 
 @AndroidEntryPoint
-class EmployeesFragment : BaseFragment<FragmentEmployeesBinding>(FragmentEmployeesBinding::inflate) {
+class EmployeesFragment :
+    BaseFragment<FragmentEmployeesBinding>(FragmentEmployeesBinding::inflate) {
 
     private val viewModel: EmployeesViewModel by viewModels()
 
@@ -29,7 +32,7 @@ class EmployeesFragment : BaseFragment<FragmentEmployeesBinding>(FragmentEmploye
             }, onMenuItemSelected = { menuItem ->
                 when (menuItem.itemId) {
                     R.id.add -> {
-
+                        navigateToCreate()
                         true
                     }
 
@@ -40,7 +43,9 @@ class EmployeesFragment : BaseFragment<FragmentEmployeesBinding>(FragmentEmploye
     }
 
     private fun onAdapterCallbacks(callback: EmployeesAdapter.Callback) {
-
+        when (callback) {
+            is EmployeesAdapter.Callback.OnClicked -> navigateToDetails(callback.employeeId)
+        }
     }
 
     // ========= Adapter ========= \\
@@ -62,19 +67,35 @@ class EmployeesFragment : BaseFragment<FragmentEmployeesBinding>(FragmentEmploye
         }
     }
 
-    private fun subscribeToViewStateUpdates(adapter: EmployeesAdapter) {
+    private fun subscribeToViewStateUpdates(adapter: EmployeesAdapter) = with(binding) {
         collectLatest(viewModel.paginatedEmployees) {
             adapter.submitData(it)
         }
         collectLatest(adapter.loadStateFlow) { loadState ->
-            viewModel.setLoading(loadState.append is LoadState.Loading)
-        }
-        collectLatest(viewModel.state) { state ->
-            binding.progressBar.isVisible = state.isLoading
+            val isRefreshing = loadState.refresh is LoadState.Loading
+            val isAppending = loadState.append is LoadState.Loading
 
-            state.errorMsg?.getContentIfNotHandled()?.let {
-                binding.root.showSnackBar(it)
-            }
+            swipeRefreshLayout.isRefreshing = isRefreshing || isAppending
+            tvEmptyStatus.isVisible = adapter.itemCount == 0
         }
+        swipeRefreshLayout.setOnRefreshListener {
+            adapter.refresh()
+        }
+    }
+
+    // ========= Navigation ========= \\
+
+    private fun navigateToCreate() {
+        findNavController().navigate(EmployeesFragmentDirections.employeesToCreateEmployee())
+    }
+
+    private fun navigateToDetails(employeeId: String) = viewLifecycleScope {
+        val activeSharedShiftId = viewModel.activeSharedShiftId.first()
+        findNavController().navigate(
+            EmployeesFragmentDirections.employeesToEmployeeDetails(
+                employeeId = employeeId,
+                sharedShiftId = activeSharedShiftId
+            )
+        )
     }
 }

@@ -12,20 +12,18 @@ class EquipmentDtoMapper @Inject constructor() : DtoMapper<EquipmentDto, Equipme
             id = data.id ?: throw MappingException("Equipment ID cannot be null"),
             manufacturer = data.manufacturer,
             model = data.model,
-            category = data.category,
             licensePlate = data.licensePlate,
-            ownerId = data.ownerId
+            owner = data.owner
         )
     }
 
     override fun mapFromDomain(data: Equipment): EquipmentDto {
         return EquipmentDto(
-            id = data.id,
+            id = data.id.ifEmpty { null },
             manufacturer = data.manufacturer,
             model = data.model,
-            category = data.category,
             licensePlate = data.licensePlate,
-            ownerId = data.ownerId
+            owner = data.owner
         )
     }
 }

@@ -15,13 +15,12 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(FragmentAuthBinding::infl
     private val viewModel: AuthViewModel by viewModels()
 
     override fun setup() {
-        viewModel.checkForSavedAuthState()
         subscribeToViewStateUpdates()
     }
 
     override fun listeners() {
         binding.btnGoogle.setOnClickListener {
-            viewModel.authenticate()
+            viewModel.authenticate(requireContext())
         }
     }
 

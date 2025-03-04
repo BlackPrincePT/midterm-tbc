@@ -14,19 +14,19 @@ class WorkDayDtoMapper @Inject constructor() : DtoMapper<WorkDayDto, WorkDay> {
             id = data.id ?: throw MappingException("WorkDay ID cannot be null"),
             employeeId = data.employeeId,
             hoursWorked = data.hoursWorked,
-            equipmentUsage = data.equipmentUsage.toMutableMap(),
-            timestamp = data.timestamp.toLocalDate(),
+            exclusiveShift = data.exclusiveShift,
+            date = data.timestamp.toLocalDate(),
             notes = data.notes
         )
     }
 
     override fun mapFromDomain(data: WorkDay): WorkDayDto {
         return WorkDayDto(
-            id = data.id,
+            id = data.id.ifEmpty { null },
             employeeId = data.employeeId,
             hoursWorked = data.hoursWorked,
-            equipmentUsage = data.equipmentUsage.toMap(),
-            timestamp = data.timestamp.toTimestamp(),
+            exclusiveShift = data.exclusiveShift,
+            timestamp = data.date.toTimestamp(),
             notes = data.notes
         )
     }

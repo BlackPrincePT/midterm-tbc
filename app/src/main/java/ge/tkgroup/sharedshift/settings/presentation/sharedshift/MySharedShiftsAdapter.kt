@@ -2,14 +2,20 @@ package ge.tkgroup.sharedshift.settings.presentation.sharedshift
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ge.tkgroup.sharedshift.common.domain.model.SharedShift
 import ge.tkgroup.sharedshift.databinding.MySharedShiftsViewHolderBinding
 
-class MySharedShiftsAdapter(private val onClicked: (String) -> Unit) :
-    ListAdapter<SharedShift, MySharedShiftsAdapter.ItemViewHolder>(ITEM_COMPARATOR) {
+class MySharedShiftsAdapter(private val callback: (Callback) -> Unit) :
+    PagingDataAdapter<SharedShift, MySharedShiftsAdapter.ItemViewHolder>(ITEM_COMPARATOR) {
+
+    sealed interface Callback {
+        data class OnClicked(val sharedShiftId: String) : Callback
+        data class OnLongClicked(val sharedShift: SharedShift) : Callback
+    }
 
     inner class ItemViewHolder(private val binding: MySharedShiftsViewHolderBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -18,7 +24,12 @@ class MySharedShiftsAdapter(private val onClicked: (String) -> Unit) :
             tvTitle.text = sharedShift.companies.toString()
 
             root.setOnClickListener {
-                onClicked.invoke(sharedShift.id)
+                callback.invoke(Callback.OnClicked(sharedShift.id))
+            }
+
+            root.setOnLongClickListener {
+                callback.invoke(Callback.OnLongClicked(sharedShift))
+                true
             }
         }
     }
@@ -31,7 +42,7 @@ class MySharedShiftsAdapter(private val onClicked: (String) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val sharedShift = getItem(position)
+        val sharedShift = getItem(position) ?: return
         holder.bind(sharedShift)
     }
 }

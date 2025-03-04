@@ -6,7 +6,6 @@ data class EquipmentDto(
     @DocumentId val id: String? = null,
     val manufacturer: String = "",
     val model: String = "",
-    val category: String = "",
     val licensePlate: String = "",
-    val ownerId: String = ""
+    val owner: String = ""
 )

@@ -7,6 +7,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ge.tkgroup.sharedshift.common.utils.extensions.EMPTY
 import ge.tkgroup.sharedshift.databinding.CreateSharedShiftViewHolderBinding
 import java.util.UUID
 
@@ -17,7 +18,7 @@ class CreateSharedShiftAdapter(private val callback: (Callback) -> Unit) :
 
     data class Item(
         val id: UUID = UUID.randomUUID(),
-        var text: String = ""
+        var text: String = String.EMPTY
     )
 
     sealed interface Callback {

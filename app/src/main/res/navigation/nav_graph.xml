@@ -8,7 +8,7 @@
         android:id="@+id/authFragment"
         android:name="ge.tkgroup.sharedshift.auth.presentation.auth.AuthFragment"
         android:label="fragment_auth"
-        tools:layout="@layout/fragment_auth" >
+        tools:layout="@layout/fragment_auth">
         <action
             android:id="@+id/auth_to_employees"
             app:destination="@id/employeesFragment" />
@@ -20,17 +20,28 @@
         android:id="@+id/employeesFragment"
         android:name="ge.tkgroup.sharedshift.employees.presentation.EmployeesFragment"
         android:label="fragment_employees"
-        tools:layout="@layout/fragment_employees" />
+        tools:layout="@layout/fragment_employees" >
+        <action
+            android:id="@+id/employees_to_createEmployee"
+            app:destination="@id/createEmployeeFragment" />
+        <action
+            android:id="@+id/employees_to_employeeDetails"
+            app:destination="@id/employeeDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/equipmentFragment"
         android:name="ge.tkgroup.sharedshift.equipment.presentation.EquipmentFragment"
         android:label="fragment_equipment"
-        tools:layout="@layout/fragment_equipment" />
+        tools:layout="@layout/fragment_equipment" >
+        <action
+            android:id="@+id/equipment_to_createEquipment"
+            app:destination="@id/createEquipmentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="ge.tkgroup.sharedshift.settings.presentation.settings.SettingsFragment"
+        android:name="ge.tkgroup.sharedshift.settings.presentation.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/settings_to_auth"
             app:destination="@id/authFragment"
@@ -43,9 +54,9 @@
         android:id="@+id/registerFragment"
         android:name="ge.tkgroup.sharedshift.auth.presentation.register.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_register">
         <action
-            android:id="@+id/action_registerFragment_to_employeesFragment"
+            android:id="@+id/register_to_employees"
             app:destination="@id/employeesFragment" />
     </fragment>
     <dialog
@@ -57,7 +68,7 @@
         android:id="@+id/mySharedShiftsFragment"
         android:name="ge.tkgroup.sharedshift.settings.presentation.sharedshift.MySharedShiftsFragment"
         android:label="fragment_my_shared_shifts"
-        tools:layout="@layout/fragment_my_shared_shifts" >
+        tools:layout="@layout/fragment_my_shared_shifts">
         <action
             android:id="@+id/mySharedShifts_to_createSharedShift"
             app:destination="@id/createSharedShiftFragment" />
@@ -69,7 +80,7 @@
         android:id="@+id/editSharedShiftFragment"
         android:name="ge.tkgroup.sharedshift.settings.presentation.sharedshift.edit.EditSharedShiftFragment"
         android:label="fragment_edit_shared_shift"
-        tools:layout="@layout/fragment_edit_shared_shift" >
+        tools:layout="@layout/fragment_edit_shared_shift">
         <argument
             android:name="sharedShiftId"
             app:argType="string" />
@@ -84,7 +95,7 @@
         android:id="@+id/editUserPermissionsFragment"
         android:name="ge.tkgroup.sharedshift.settings.presentation.sharedshift.edit.permissions.EditUserPermissionsFragment"
         android:label="fragment_edit_user_permissions"
-        tools:layout="@layout/fragment_edit_user_permissions" >
+        tools:layout="@layout/fragment_edit_user_permissions">
         <argument
             android:name="sharedShiftId"
             app:argType="string" />
@@ -97,4 +108,41 @@
         android:name="ge.tkgroup.sharedshift.settings.presentation.sharedshift.edit.find.FindUserByUsernameFragment"
         android:label="fragment_add_user_to_shared_shift"
         tools:layout="@layout/fragment_find_user_by_username" />
+    <dialog
+        android:id="@+id/createEmployeeFragment"
+        android:name="ge.tkgroup.sharedshift.employees.presentation.create.CreateEmployeeFragment"
+        android:label="fragment_create_employee"
+        tools:layout="@layout/fragment_create_employee" />
+    <fragment
+        android:id="@+id/employeeDetailsFragment"
+        android:name="ge.tkgroup.sharedshift.employees.presentation.details.EmployeeDetailsFragment"
+        android:label="fragment_employee_details"
+        tools:layout="@layout/fragment_employee_details" >
+        <argument
+            android:name="employeeId"
+            app:argType="string" />
+        <argument
+            android:name="sharedShiftId"
+            app:argType="string" />
+        <action
+            android:id="@+id/employeeDetails_to_editWorkDay"
+            app:destination="@id/editWorkDayFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/editWorkDayFragment"
+        android:name="ge.tkgroup.sharedshift.employees.presentation.details.edit.EditWorkDayFragment"
+        android:label="fragment_edit_work_day"
+        tools:layout="@layout/fragment_edit_work_day" >
+        <argument
+            android:name="workDay"
+            app:argType="ge.tkgroup.sharedshift.common.domain.model.WorkDay" />
+        <argument
+            android:name="sharedShiftId"
+            app:argType="string" />
+    </dialog>
+    <dialog
+        android:id="@+id/createEquipmentFragment"
+        android:name="ge.tkgroup.sharedshift.equipment.presentation.create.CreateEquipmentFragment"
+        android:label="fragment_create_equipment"
+        tools:layout="@layout/fragment_create_equipment" />
 </navigation>

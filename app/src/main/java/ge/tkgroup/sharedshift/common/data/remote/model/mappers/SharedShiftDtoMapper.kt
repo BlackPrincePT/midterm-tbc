@@ -19,7 +19,7 @@ class SharedShiftDtoMapper @Inject constructor() : DtoMapper<SharedShiftDto, Sha
 
     override fun mapFromDomain(data: SharedShift): SharedShiftDto {
         return SharedShiftDto(
-            id = data.id,
+            id = data.id.ifEmpty { null },
             companies = data.companies,
             users = data.users,
             permissions = data.permissions.mapValues { it.value.map(Permission::name) }

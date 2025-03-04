@@ -7,7 +7,7 @@ data class WorkDayDto(
     @DocumentId val id: String? = null,
     val employeeId: String = "",
     val hoursWorked: Int = 0,
-    val equipmentUsage: Map<String, Int> = emptyMap(),
+    val exclusiveShift: Map<String, Int> = emptyMap(),
     val timestamp: Timestamp = Timestamp.now(),
     val notes: String? = null
 )

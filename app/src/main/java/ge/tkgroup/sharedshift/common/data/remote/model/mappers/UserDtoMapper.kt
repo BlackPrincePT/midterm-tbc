@@ -16,7 +16,7 @@ class UserDtoMapper @Inject constructor() : DtoMapper<UserDto, User> {
 
     override fun mapFromDomain(data: User): UserDto {
         return UserDto(
-            id = data.id,
+            id = data.id.ifEmpty { null },
             username = data.username,
         )
     }

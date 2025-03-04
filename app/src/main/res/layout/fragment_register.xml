@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
+    android:background="@color/brand_white"
     tools:context=".auth.presentation.register.RegisterFragment">
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Username" />
+        android:layout_height="48dp"
+        android:layout_margin="@dimen/spacing_64dp"
+        android:hint="@string/username"
+        android:paddingHorizontal="@dimen/spacing_8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSubmit"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit" />
+        android:layout_marginHorizontal="64dp"
+        android:layout_marginTop="@dimen/spacing_16dp"
+        android:background="@drawable/brand_green_capsule"
+        android:text="@string/register"
+        android:textAllCaps="false"
+        android:textColor="@color/brand_white"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/etUsername" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>

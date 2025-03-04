@@ -1,32 +1,54 @@
 package ge.tkgroup.sharedshift.common.data.repository
 
+import androidx.paging.PagingSource
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.snapshots
+import ge.tkgroup.sharedshift.common.data.local.DataStoreConstants.SHARED_SHIFT_KEY
+import ge.tkgroup.sharedshift.common.data.local.DataStoreManager
 import ge.tkgroup.sharedshift.common.data.remote.FirebaseConstants.PERMISSIONS
 import ge.tkgroup.sharedshift.common.data.remote.FirebaseConstants.SHARED_SHIFTS
 import ge.tkgroup.sharedshift.common.data.remote.FirebaseConstants.USERS
+import ge.tkgroup.sharedshift.common.data.remote.FirestorePagingSource
 import ge.tkgroup.sharedshift.common.data.remote.FirestoreUtils
 import ge.tkgroup.sharedshift.common.data.remote.model.SharedShiftDto
-import ge.tkgroup.sharedshift.common.data.remote.model.UserDto
 import ge.tkgroup.sharedshift.common.data.remote.model.mappers.SharedShiftDtoMapper
 import ge.tkgroup.sharedshift.common.domain.model.Permission
 import ge.tkgroup.sharedshift.common.domain.model.SharedShift
-import ge.tkgroup.sharedshift.common.domain.model.User
 import ge.tkgroup.sharedshift.common.domain.repository.SharedShiftRepository
 import ge.tkgroup.sharedshift.common.utils.Resource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class SharedShiftRepositoryImpl @Inject constructor(
     private val sharedShiftDtoMapper: SharedShiftDtoMapper,
+    private val dataStoreManager: DataStoreManager,
     private val firestoreUtils: FirestoreUtils
 ) : SharedShiftRepository {
 
     private val db = Firebase.firestore
+
+    override fun observeCachedActiveSharedShift(): Flow<String> {
+        return dataStoreManager.observeData(SHARED_SHIFT_KEY)
+            .filterNotNull()
+    }
+
+    override suspend fun readCachedActiveSharedShift(): String? {
+        return dataStoreManager.readData(SHARED_SHIFT_KEY)
+    }
+
+    override suspend fun cacheActiveSharedShift(id: String) {
+        dataStoreManager.saveData(SHARED_SHIFT_KEY, id)
+    }
+
+    override suspend fun clearCachedActiveShift() {
+        dataStoreManager.deleteData(SHARED_SHIFT_KEY)
+    }
 
     override suspend fun fetchSharedShiftById(id: String): Resource<SharedShift> {
         val documentRef = db.collection(SHARED_SHIFTS).document(id)
@@ -50,13 +72,19 @@ class SharedShiftRepositoryImpl @Inject constructor(
             }
     }
 
-    override fun fetchMySharedShifts(userid: String): Flow<List<SharedShift>> {
-        return db.collection(SHARED_SHIFTS).whereArrayContains(USERS, userid).snapshots()
-            .map { documentSnapshot ->
-                documentSnapshot.toObjects(SharedShiftDto::class.java).map {
-                    sharedShiftDtoMapper.mapToDomain(it)
-                }
-            }
+    override fun fetchMySharedShifts(userid: String): PagingSource<QuerySnapshot, SharedShift> {
+        val query = db.collection(SHARED_SHIFTS)
+            .whereArrayContains(USERS, userid)
+
+        return getUsersPagingSource(query)
+    }
+
+    private fun getUsersPagingSource(query: Query): PagingSource<QuerySnapshot, SharedShift> {
+        return FirestorePagingSource(
+            query = query,
+            classInfo = SharedShiftDto::class.java,
+            dtoMapper = sharedShiftDtoMapper
+        )
     }
 
     override fun createSharedShift(companies: List<String>, currentUserId: String) {
